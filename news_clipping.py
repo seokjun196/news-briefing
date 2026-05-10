@@ -4,7 +4,6 @@ from datetime import datetime
 from difflib import SequenceMatcher
 import os
 
-KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
 
 RSS_FEEDS = {
     "유통/백화점": [
@@ -128,37 +127,30 @@ def build_message(news):
     return "\n".join(lines)
 
 
-def send_to_kakao(message, token):
-    url = "https://kapi.kakao.com/v2/api/talk/memo/default/send"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/x-www-form-urlencoded",
-    }
-    import json
+def send_to_telegram(message, bot_token, chat_id):
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     payload = {
-        "template_object": json.dumps({
-            "object_type": "text",
-            "text": message,
-            "link": {
-                "web_url": "https://www.naver.com",
-                "mobile_web_url": "https://www.naver.com"
-            }
-        })
+        "chat_id": chat_id,
+        "text": message,
+        "disable_web_page_preview": False
     }
     try:
-        res = requests.post(url, headers=headers, data=payload, timeout=10)
-        if res.status_code == 200 and res.json().get("result_code") == 0:
-            print("카카오톡 전송 성공!")
+        res = requests.post(url, json=payload, timeout=10)
+        if res.status_code == 200:
+            print("텔레그램 전송 성공!")
             return True
         else:
-            print(f"카카오톡 전송 실패: {res.status_code} {res.text}")
+            print(f"텔레그램 전송 실패: {res.status_code} {res.text}")
             return False
     except Exception as e:
-        print(f"카카오톡 전송 오류: {e}")
+        print(f"텔레그램 전송 오류: {e}")
         return False
 
 
 def main():
+    TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+
     print("뉴스 수집 시작...")
     news = fetch_news(RSS_FEEDS)
 
@@ -170,8 +162,7 @@ def main():
     print(message)
     print("----------------------\n")
 
-    send_to_kakao(message, KAKAO_ACCESS_TOKEN)
-
+    send_to_telegram(message, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
 
 if __name__ == "__main__":
     main()
