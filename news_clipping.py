@@ -52,9 +52,10 @@ def is_similar(title1, title2, threshold=0.7):
     return SequenceMatcher(None, title1, title2).ratio() > threshold
 
 def fetch_news(feeds):
+    from urllib.parse import urlparse, parse_qs
     result = {}
     seen_links = set()
-    seen_titles = []  # 유사도 비교용
+    seen_titles = []
     for category, urls in feeds.items():
         items = []
         keywords = KEYWORDS.get(category, [])
@@ -63,21 +64,18 @@ def fetch_news(feeds):
                 feed = feedparser.parse(url)
                 for entry in feed.entries:
                     title = entry.get("title", "").strip()
-raw_link = entry.get("link", "").strip()
-# 구글 뉴스 리다이렉트 URL에서 실제 URL 추출
-from urllib.parse import urlparse, parse_qs
-if "news.google.com" in raw_link:
-    qs = parse_qs(urlparse(raw_link).query)
-    link = qs.get("url", [raw_link])[0]
-else:
-    link = raw_link
+                    raw_link = entry.get("link", "").strip()
+                    if "news.google.com" in raw_link:
+                        qs = parse_qs(urlparse(raw_link).query)
+                        link = qs.get("url", [raw_link])[0]
+                    else:
+                        link = raw_link
                     if not title or not link:
                         continue
                     if link in seen_links:
                         continue
                     if keywords and not any(kw in title for kw in keywords):
                         continue
-                    # 유사 제목 중복 체크
                     if any(is_similar(title, t) for t in seen_titles):
                         continue
                     if len(title) > MAX_TITLE_LENGTH:
