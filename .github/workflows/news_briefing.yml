@@ -22,7 +22,8 @@ jobs:
       - name: 라이브러리 설치
         run: pip install feedparser requests
 
-      - name: 뉴스 수집 & 텔레그램 전송
+- name: 뉴스 수집 & 텔레그램 전송
         env:
-          KAKAO_ACCESS_TOKEN: ${{ secrets.KAKAO_ACCESS_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python news_clipping.py
