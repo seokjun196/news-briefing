@@ -1,7 +1,7 @@
 name: 매일 아침 뉴스 브리핑
 
 on:
-schedule:
+  schedule:
     - cron: "0 22 * * *"   # 한국시간 오전 7시
     - cron: "0 10 * * *"   # 한국시간 오후 7시
   workflow_dispatch:
