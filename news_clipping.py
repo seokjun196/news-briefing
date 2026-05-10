@@ -8,20 +8,19 @@ KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
 
 RSS_FEEDS = {
     "유통/백화점": [
-        "https://news.naver.com/main/rss/rankingNews.nhn?rankingType=popular_day&sectionId=101",  # 네이버 경제 많이 본 뉴스
+        "https://news.google.com/rss/search?q=백화점+유통&hl=ko&gl=KR&ceid=KR:ko",
+        "https://news.google.com/rss/search?q=롯데+신세계+이마트&hl=ko&gl=KR&ceid=KR:ko",
         "https://www.hankyung.com/feed/distribution",
-        "https://www.mk.co.kr/rss/50400012/",
     ],
     "AI/테크": [
-        "https://news.naver.com/main/rss/rankingNews.nhn?rankingType=popular_day&sectionId=105",  # 네이버 IT/과학 많이 본 뉴스
+        "https://news.google.com/rss/search?q=AI+인공지능&hl=ko&gl=KR&ceid=KR:ko",
+        "https://news.google.com/rss/search?q=반도체+엔비디아&hl=ko&gl=KR&ceid=KR:ko",
         "https://www.aitimes.com/rss/allArticle.xml",
-        "https://zdnet.co.kr/rss/",
     ],
     "주식/경제": [
-        "https://news.naver.com/main/rss/rankingNews.nhn?rankingType=popular_day&sectionId=101",  # 네이버 경제 많이 본 뉴스
+        "https://news.google.com/rss/search?q=코스피+증시&hl=ko&gl=KR&ceid=KR:ko",
+        "https://news.google.com/rss/search?q=금리+환율+경제&hl=ko&gl=KR&ceid=KR:ko",
         "https://www.mk.co.kr/rss/30300001/",
-        "https://www.hankyung.com/feed/economy",
-        "https://www.sedaily.com/NewsList/GG/rss",
     ],
 }
 
