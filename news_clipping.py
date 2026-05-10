@@ -7,22 +7,22 @@ KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
 
 RSS_FEEDS = {
     "유통/백화점": [
+        "https://news.naver.com/main/rss/rankingNews.nhn?rankingType=popular_day&sectionId=101",  # 네이버 경제 많이 본 뉴스
         "https://www.hankyung.com/feed/distribution",
         "https://www.mk.co.kr/rss/50400012/",
-        "https://www.sedaily.com/NewsList/GF/rss",
     ],
     "AI/테크": [
+        "https://news.naver.com/main/rss/rankingNews.nhn?rankingType=popular_day&sectionId=105",  # 네이버 IT/과학 많이 본 뉴스
         "https://www.aitimes.com/rss/allArticle.xml",
         "https://zdnet.co.kr/rss/",
-        "https://www.itdaily.kr/rss/allArticle.xml",
     ],
     "주식/경제": [
-        "https://www.mk.co.kr/rss/30300001/",          # 매경 증권
-        "https://www.mk.co.kr/rss/30100041/",          # 매경 경제
-        "https://www.hankyung.com/feed/economy",        # 한국경제 경제
-        "https://www.hankyung.com/feed/finance",        # 한국경제 금융
-        "https://www.sedaily.com/NewsList/GG/rss",      # 서울경제 증권
-        "https://news.einfomax.co.kr/rss/allArticle.xml", # 연합인포맥스
+        "https://news.naver.com/main/rss/rankingNews.nhn?rankingType=popular_day&sectionId=101",  # 네이버 경제 많이 본 뉴스
+        "https://www.mk.co.kr/rss/30300001/",
+        "https://www.hankyung.com/feed/economy",
+        "https://www.sedaily.com/NewsList/GG/rss",
+    ],
+}
     ],
 }
 
