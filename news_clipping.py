@@ -24,7 +24,6 @@ RSS_FEEDS = {
     ],
 }
 
-
 KEYWORDS = {
     "유통/백화점": [
         "백화점", "유통", "롯데", "신세계", "현대백화점", "이마트", "쿠팡",
@@ -46,10 +45,19 @@ NEWS_PER_CATEGORY = 3
 MAX_TITLE_LENGTH = 40
 
 
-from difflib import SequenceMatcher
+def shorten_url(url):
+    try:
+        res = requests.get(f"https://tinyurl.com/api-create.php?url={url}", timeout=5)
+        if res.status_code == 200:
+            return res.text.strip()
+    except:
+        pass
+    return url
+
 
 def is_similar(title1, title2, threshold=0.7):
     return SequenceMatcher(None, title1, title2).ratio() > threshold
+
 
 def fetch_news(feeds):
     from urllib.parse import urlparse, parse_qs
@@ -80,7 +88,8 @@ def fetch_news(feeds):
                         continue
                     if len(title) > MAX_TITLE_LENGTH:
                         title = title[:MAX_TITLE_LENGTH] + "..."
-                    items.append({"title": title, "link": link})
+                    short_link = shorten_url(link)
+                    items.append({"title": title, "link": short_link})
                     seen_links.add(link)
                     seen_titles.append(title)
                     if len(items) >= NEWS_PER_CATEGORY:
@@ -104,24 +113,17 @@ def build_message(news):
         today = today.replace(en, ko)
 
     lines = [f"[뉴스 브리핑] {today}", ""]
-    link_index = 1
-    link_list = []
 
     for category, items in news.items():
         if not items:
             continue
         lines.append(f"▪ {category}")
         for item in items:
-            lines.append(f"  {link_index}. {item['title']}")
-            link_list.append(f"[{link_index}] {item['link']}")
-            link_index += 1
+            lines.append(f"  · {item['title']}")
+            lines.append(f"    {item['link']}")
         lines.append("")
 
     lines.append("─────────────────")
-    lines.append("🔗 링크 모음")
-    lines.append("")
-    lines.extend(link_list)
-    lines.append("")
     lines.append("좋은 하루 되세요!")
     return "\n".join(lines)
 
