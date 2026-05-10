@@ -63,7 +63,14 @@ def fetch_news(feeds):
                 feed = feedparser.parse(url)
                 for entry in feed.entries:
                     title = entry.get("title", "").strip()
-                    link = entry.get("link", "").strip()
+raw_link = entry.get("link", "").strip()
+# 구글 뉴스 리다이렉트 URL에서 실제 URL 추출
+from urllib.parse import urlparse, parse_qs
+if "news.google.com" in raw_link:
+    qs = parse_qs(urlparse(raw_link).query)
+    link = qs.get("url", [raw_link])[0]
+else:
+    link = raw_link
                     if not title or not link:
                         continue
                     if link in seen_links:
