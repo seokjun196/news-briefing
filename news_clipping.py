@@ -40,7 +40,11 @@ KEYWORDS = {
     ],
 }
 
-NEWS_PER_CATEGORY = 3
+NEWS_PER_CATEGORY = {
+    "유통/백화점": 5,
+    "AI/테크": 3,
+    "주식/경제": 3,
+}
 MAX_TITLE_LENGTH = 40
 
 
