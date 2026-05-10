@@ -7,20 +7,24 @@ KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
 
 RSS_FEEDS = {
     "유통/백화점": [
-        "https://www.sedaily.com/NewsList/GF/rss",
-        "https://www.hankyung.com/feed/distribution",
+        "https://www.hankyung.com/feed/distribution",        # 한국경제 유통
+        "https://www.mk.co.kr/rss/50400012/",               # 매경 유통
+        "https://www.sedaily.com/NewsList/GF/rss",           # 서울경제 유통
     ],
     "AI/테크": [
-        "https://www.aitimes.com/rss/allArticle.xml",
-        "https://zdnet.co.kr/rss/",
+        "https://www.aitimes.com/rss/allArticle.xml",        # AI타임스 (AI 전문)
+        "https://www.itdaily.kr/rss/allArticle.xml",         # IT데일리
+        "https://zdnet.co.kr/rss/",                          # ZDNet Korea
     ],
     "교육/HRD": [
-        "https://www.edaily.co.kr/rss/newsflash.xml",
-        "https://rss.etnews.com/Section901.xml",
+        "https://www.hrdkorea.or.kr/rss/rssNews.do",         # HRD Korea 공식
+        "https://www.eduinnews.co.kr/rss/allArticle.xml",    # 에듀인뉴스 (교육 전문)
+        "https://www.edujin.co.kr/rss/allArticle.xml",       # 에듀진 (교육 전문)
     ],
     "주식/경제": [
-        "https://www.mk.co.kr/rss/40300001/",
-        "https://www.hankyung.com/feed/economy",
+        "https://www.mk.co.kr/rss/30300001/",                # 매경 증권
+        "https://www.hankyung.com/feed/economy",             # 한국경제 경제
+        "https://finance.naver.com/news/news_list.naver?mode=LSS2D&section_id=101&section_id2=258", # 네이버 증권
     ],
 }
 
