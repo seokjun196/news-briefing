@@ -95,7 +95,7 @@ def fetch_news(feeds):
                     items.append({"title": title, "link": short_link})
                     seen_links.add(link)
                     seen_titles.append(title)
-                    if len(items) >= NEWS_PER_CATEGORY:
+                    if len(items) >= NEWS_PER_CATEGORY.get(category, 3):
                         break
             except Exception as e:
                 print(f"[오류] {category} - {url}: {e}")
