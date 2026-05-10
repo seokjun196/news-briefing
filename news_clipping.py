@@ -24,8 +24,7 @@ RSS_FEEDS = {
         "https://www.sedaily.com/NewsList/GG/rss",
     ],
 }
-    ],
-}
+
 
 KEYWORDS = {
     "유통/백화점": [
