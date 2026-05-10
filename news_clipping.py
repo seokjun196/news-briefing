@@ -3,18 +3,7 @@ import requests
 from datetime import datetime
 import os
 
-KAKAO_REST_API_KEY = os.environ.get("KAKAO_REST_API_KEY", "")
-KAKAO_REFRESH_TOKEN = os.environ.get("KAKAO_REFRESH_TOKEN", "")
-
-def get_access_token():
-    res = requests.post("https://kauth.kakao.com/oauth/token", data={
-        "grant_type": "refresh_token",
-        "client_id": KAKAO_REST_API_KEY,
-        "refresh_token": KAKAO_REFRESH_TOKEN,
-    })
-    return res.json().get("access_token")
-
-KAKAO_ACCESS_TOKEN = get_access_token()
+KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
 
 RSS_FEEDS = {
     "유통/백화점": [
