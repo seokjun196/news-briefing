@@ -100,7 +100,9 @@ def fetch_news(feeds):
             except Exception as e:
                 print(f"[오류] {category} - {url}: {e}")
                 continue
-            if len(items) >= NEWS_PER_CATEGORY:
+if len(items) >= NEWS_PER_CATEGORY.get(category, 3):
+                break
+        result[category] = items[:NEWS_PER_CATEGORY.get(category, 3)]
                 break
         result[category] = items[:NEWS_PER_CATEGORY]
     return result
