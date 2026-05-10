@@ -16,14 +16,13 @@ RSS_FEEDS = {
         "https://zdnet.co.kr/rss/",
         "https://www.itdaily.kr/rss/allArticle.xml",
     ],
-    "교육/HRD": [
-        "https://www.eduinnews.co.kr/rss/allArticle.xml",
-        "https://www.edujin.co.kr/rss/allArticle.xml",
-        "https://www.hrdkorea.or.kr/rss/rssNews.do",
-    ],
     "주식/경제": [
-        "https://www.mk.co.kr/rss/30300001/",
-        "https://www.hankyung.com/feed/economy",
+        "https://www.mk.co.kr/rss/30300001/",          # 매경 증권
+        "https://www.mk.co.kr/rss/30100041/",          # 매경 경제
+        "https://www.hankyung.com/feed/economy",        # 한국경제 경제
+        "https://www.hankyung.com/feed/finance",        # 한국경제 금융
+        "https://www.sedaily.com/NewsList/GG/rss",      # 서울경제 증권
+        "https://news.einfomax.co.kr/rss/allArticle.xml", # 연합인포맥스
     ],
 }
 
@@ -36,13 +35,11 @@ KEYWORDS = {
         "AI", "인공지능", "챗GPT", "LLM", "머신러닝", "딥러닝", "엔비디아",
         "테크", "IT", "디지털", "반도체", "클라우드", "데이터"
     ],
-    "교육/HRD": [
-        "교육", "HRD", "연수", "직무교육", "이러닝", "e러닝",
-        "학습", "인재개발", "역량", "강의", "훈련", "교원"
-    ],
     "주식/경제": [
         "주식", "증시", "코스피", "코스닥", "금리", "환율", "경제",
-        "투자", "펀드", "ETF", "채권", "기준금리"
+        "투자", "펀드", "ETF", "채권", "기준금리", "상승", "하락",
+        "시장", "지수", "달러", "원화", "GDP", "물가", "인플레",
+        "Fed", "한은", "기업", "실적", "매출", "영업이익"
     ],
 }
 
