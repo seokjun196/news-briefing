@@ -1,6 +1,7 @@
 import feedparser
 import requests
 from datetime import datetime
+from difflib import SequenceMatcher
 import os
 
 KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
@@ -47,8 +48,15 @@ NEWS_PER_CATEGORY = 3
 MAX_TITLE_LENGTH = 40
 
 
+from difflib import SequenceMatcher
+
+def is_similar(title1, title2, threshold=0.7):
+    return SequenceMatcher(None, title1, title2).ratio() > threshold
+
 def fetch_news(feeds):
     result = {}
+    seen_links = set()
+    seen_titles = []  # 유사도 비교용
     for category, urls in feeds.items():
         items = []
         keywords = KEYWORDS.get(category, [])
@@ -60,11 +68,18 @@ def fetch_news(feeds):
                     link = entry.get("link", "").strip()
                     if not title or not link:
                         continue
+                    if link in seen_links:
+                        continue
                     if keywords and not any(kw in title for kw in keywords):
+                        continue
+                    # 유사 제목 중복 체크
+                    if any(is_similar(title, t) for t in seen_titles):
                         continue
                     if len(title) > MAX_TITLE_LENGTH:
                         title = title[:MAX_TITLE_LENGTH] + "..."
                     items.append({"title": title, "link": link})
+                    seen_links.add(link)
+                    seen_titles.append(title)
                     if len(items) >= NEWS_PER_CATEGORY:
                         break
             except Exception as e:
