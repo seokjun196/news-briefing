@@ -70,6 +70,7 @@ def fetch_news(feeds):
     for category, urls in feeds.items():
         items = []
         keywords = KEYWORDS.get(category, [])
+        limit = NEWS_PER_CATEGORY.get(category, 3)
         for url in urls:
             try:
                 feed = feedparser.parse(url)
@@ -95,16 +96,14 @@ def fetch_news(feeds):
                     items.append({"title": title, "link": short_link})
                     seen_links.add(link)
                     seen_titles.append(title)
-                    if len(items) >= NEWS_PER_CATEGORY.get(category, 3):
+                    if len(items) >= limit:
                         break
             except Exception as e:
                 print(f"[오류] {category} - {url}: {e}")
                 continue
-if len(items) >= NEWS_PER_CATEGORY.get(category, 3):
+            if len(items) >= limit:
                 break
-        result[category] = items[:NEWS_PER_CATEGORY.get(category, 3)]
-                break
-        result[category] = items[:NEWS_PER_CATEGORY]
+        result[category] = items[:limit]
     return result
 
 
@@ -135,8 +134,6 @@ def build_message(news):
 
 def send_to_telegram(message, bot_token, chat_id):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    print(f"요청 URL: https://api.telegram.org/bot{bot_token[:10]}...")
-    print(f"Chat ID: {chat_id}")
     payload = {
         "chat_id": chat_id,
         "text": message,
@@ -171,6 +168,7 @@ def main():
     print("----------------------\n")
 
     send_to_telegram(message, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+
 
 if __name__ == "__main__":
     main()
