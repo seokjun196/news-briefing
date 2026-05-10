@@ -104,20 +104,24 @@ def build_message(news):
         today = today.replace(en, ko)
 
     lines = [f"[뉴스 브리핑] {today}", ""]
+    link_index = 1
+    link_list = []
 
     for category, items in news.items():
         if not items:
-            lines.append(f"▪ {category}")
-            lines.append("  · 관련 뉴스 없음")
-            lines.append("")
             continue
         lines.append(f"▪ {category}")
         for item in items:
-            lines.append(f"  · {item['title']}")
-            lines.append(f"    {item['link']}")
+            lines.append(f"  {link_index}. {item['title']}")
+            link_list.append(f"[{link_index}] {item['link']}")
+            link_index += 1
         lines.append("")
 
     lines.append("─────────────────")
+    lines.append("🔗 링크 모음")
+    lines.append("")
+    lines.extend(link_list)
+    lines.append("")
     lines.append("좋은 하루 되세요!")
     return "\n".join(lines)
 
