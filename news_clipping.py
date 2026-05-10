@@ -129,6 +129,8 @@ def build_message(news):
 
 def send_to_telegram(message, bot_token, chat_id):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    print(f"요청 URL: https://api.telegram.org/bot{bot_token[:10]}...")
+    print(f"Chat ID: {chat_id}")
     payload = {
         "chat_id": chat_id,
         "text": message,
