@@ -7,52 +7,74 @@ KAKAO_ACCESS_TOKEN = os.environ.get("KAKAO_ACCESS_TOKEN", "")
 
 RSS_FEEDS = {
     "유통/백화점": [
-        "https://www.hankyung.com/feed/distribution",        # 한국경제 유통
-        "https://www.mk.co.kr/rss/50400012/",               # 매경 유통
-        "https://www.sedaily.com/NewsList/GF/rss",           # 서울경제 유통
+        "https://www.hankyung.com/feed/distribution",
+        "https://www.mk.co.kr/rss/50400012/",
+        "https://www.sedaily.com/NewsList/GF/rss",
     ],
     "AI/테크": [
-        "https://www.aitimes.com/rss/allArticle.xml",        # AI타임스 (AI 전문)
-        "https://www.itdaily.kr/rss/allArticle.xml",         # IT데일리
-        "https://zdnet.co.kr/rss/",                          # ZDNet Korea
+        "https://www.aitimes.com/rss/allArticle.xml",
+        "https://zdnet.co.kr/rss/",
+        "https://www.itdaily.kr/rss/allArticle.xml",
     ],
     "교육/HRD": [
-        "https://www.hrdkorea.or.kr/rss/rssNews.do",         # HRD Korea 공식
-        "https://www.eduinnews.co.kr/rss/allArticle.xml",    # 에듀인뉴스 (교육 전문)
-        "https://www.edujin.co.kr/rss/allArticle.xml",       # 에듀진 (교육 전문)
+        "https://www.eduinnews.co.kr/rss/allArticle.xml",
+        "https://www.edujin.co.kr/rss/allArticle.xml",
+        "https://www.hrdkorea.or.kr/rss/rssNews.do",
     ],
     "주식/경제": [
-        "https://www.mk.co.kr/rss/30300001/",                # 매경 증권
-        "https://www.hankyung.com/feed/economy",             # 한국경제 경제
-        "https://finance.naver.com/news/news_list.naver?mode=LSS2D&section_id=101&section_id2=258", # 네이버 증권
+        "https://www.mk.co.kr/rss/30300001/",
+        "https://www.hankyung.com/feed/economy",
+    ],
+}
+
+KEYWORDS = {
+    "유통/백화점": [
+        "백화점", "유통", "롯데", "신세계", "현대백화점", "이마트", "쿠팡",
+        "온라인몰", "리테일", "소비", "편의점", "마트", "면세"
+    ],
+    "AI/테크": [
+        "AI", "인공지능", "챗GPT", "LLM", "머신러닝", "딥러닝", "엔비디아",
+        "테크", "IT", "디지털", "반도체", "클라우드", "데이터"
+    ],
+    "교육/HRD": [
+        "교육", "HRD", "연수", "직무교육", "이러닝", "e러닝",
+        "학습", "인재개발", "역량", "강의", "훈련", "교원"
+    ],
+    "주식/경제": [
+        "주식", "증시", "코스피", "코스닥", "금리", "환율", "경제",
+        "투자", "펀드", "ETF", "채권", "기준금리"
     ],
 }
 
 NEWS_PER_CATEGORY = 3
 MAX_TITLE_LENGTH = 40
 
-# ============================================================
-
 
 def fetch_news(feeds):
     result = {}
     for category, urls in feeds.items():
         items = []
+        keywords = KEYWORDS.get(category, [])
         for url in urls:
             try:
                 feed = feedparser.parse(url)
-                for entry in feed.entries[:NEWS_PER_CATEGORY]:
-                    title = entry.get("title", "제목 없음").strip()
+                for entry in feed.entries:
+                    title = entry.get("title", "").strip()
                     link = entry.get("link", "").strip()
-                    if title and link:
-                        if len(title) > MAX_TITLE_LENGTH:
-                            title = title[:MAX_TITLE_LENGTH] + "..."
-                        items.append({"title": title, "link": link})
-                if items:
-                    break
+                    if not title or not link:
+                        continue
+                    if keywords and not any(kw in title for kw in keywords):
+                        continue
+                    if len(title) > MAX_TITLE_LENGTH:
+                        title = title[:MAX_TITLE_LENGTH] + "..."
+                    items.append({"title": title, "link": link})
+                    if len(items) >= NEWS_PER_CATEGORY:
+                        break
             except Exception as e:
                 print(f"[오류] {category} - {url}: {e}")
                 continue
+            if len(items) >= NEWS_PER_CATEGORY:
+                break
         result[category] = items[:NEWS_PER_CATEGORY]
     return result
 
@@ -70,6 +92,9 @@ def build_message(news):
 
     for category, items in news.items():
         if not items:
+            lines.append(f"▪ {category}")
+            lines.append("  · 관련 뉴스 없음")
+            lines.append("")
             continue
         lines.append(f"▪ {category}")
         for item in items:
