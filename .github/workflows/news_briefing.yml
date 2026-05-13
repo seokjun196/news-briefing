@@ -3,7 +3,6 @@ name: 매일 아침 뉴스 브리핑
 on:
   schedule:
     - cron: "0 20 * * *"   # 한국시간 오전 5시
-    - cron: "0 8 * * *"   # 한국시간 오후 5시
   workflow_dispatch:
 
 jobs:
